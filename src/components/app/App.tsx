@@ -1,11 +1,11 @@
 import { Component } from 'react';
 import SearchForm from './search-form/SearchForm';
-import './App.css';
 import getCharacter from '../../api/api';
 import { CharacterData } from '../../types/types';
 import Card from './card/Card';
 import Loader from './loader/Loader';
 import ErrorButton from './errorButton/ErrorButton';
+import './App.css';
 
 class App extends Component {
   state: {
