@@ -1,0 +1,42 @@
+.search-input {
+  border-radius: 0;
+  border: none;
+  background-color: transparent;
+  font-size: 1.5rem;
+  transition:
+    background-color 0.3s,
+    border-bottom 0.3s;
+  border-bottom: 2px solid transparent;
+}
+.search-input:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.search-input:focus-visible {
+  outline: none;
+  border-bottom: 2px solid black;
+}
+
+.search-button {
+  border: none;
+  background-color: transparent;
+
+  border-radius: 0;
+  transition: background-color 0.3s;
+}
+
+.search-button:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.search-button:active {
+  cursor: pointer;
+
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.search-form {
+  display: flex;
+  flex-direction: row;
+  /* align-items: center; */
+  /* column-gap: 0.5rem; */
+}

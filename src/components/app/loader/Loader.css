@@ -1,0 +1,27 @@
+.loader {
+  z-index: 1;
+  position: absolute;
+  width: 5rem;
+  border-radius: 5rem;
+  border: 0.3rem solid grey;
+  border-top-color: transparent;
+  animation-name: spin;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  height: 5rem;
+  top: calc(50% - 2.5rem);
+}
+
+.loader ~ * {
+  filter: blur(3px);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

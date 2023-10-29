@@ -4,6 +4,7 @@ import './App.css';
 import fetchQuery from '../../api/api';
 import { CharacterData } from '../../types/types';
 import Card from './card/Card';
+import Loader from './loader/Loader';
 
 class App extends Component<
   unknown,
@@ -33,6 +34,7 @@ class App extends Component<
           />
         </div>
         <div className="card-wrapper">
+          {this.state.isFetching ? <Loader></Loader> : ''}
           {this.state.characters.length ? (
             this.state.characters.map((character, idx) => (
               <Card
@@ -43,7 +45,7 @@ class App extends Component<
               ></Card>
             ))
           ) : (
-            <div>results not found</div>
+            <div className="not-found">results not found</div>
           )}
         </div>
       </>
