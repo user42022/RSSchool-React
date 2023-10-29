@@ -23,7 +23,7 @@ class App extends Component<Record<string, never>, AppState> {
               this.setState(
                 { characterName: value, isFetching: true },
                 async () => {
-                  localStorage.setItem('cachedQuery', this.state.characterName);
+                  localStorage.setItem('cachedName', this.state.characterName);
                   const response = await getCharacter(this.state.characterName);
                   this.setState({ isFetching: false, characters: response });
                 }

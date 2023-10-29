@@ -8,7 +8,7 @@ const getCharacter = async (characterName: string) => {
     )
   ).json();
 
-  return response?.results || [];
+  return response.results || [];
 };
 
 export default getCharacter;
