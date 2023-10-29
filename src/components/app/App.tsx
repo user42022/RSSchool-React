@@ -5,6 +5,7 @@ import fetchQuery from '../../api/api';
 import { CharacterData } from '../../types/types';
 import Card from './card/Card';
 import Loader from './loader/Loader';
+import ErrorButton from './errorButton/ErrorButton';
 
 class App extends Component<
   unknown,
@@ -48,6 +49,7 @@ class App extends Component<
             <div className="not-found">results not found</div>
           )}
         </div>
+        <ErrorButton></ErrorButton>
       </>
     );
   }
