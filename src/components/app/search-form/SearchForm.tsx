@@ -1,10 +1,8 @@
 import { Component } from 'react';
+import { SearchFormProps, SearchFormState } from '../../../types/types';
 import './SearchForm.css';
 
-class SearchForm extends Component<
-  { callback: (value: string) => void },
-  { characterName: string }
-> {
+class SearchForm extends Component<SearchFormProps, SearchFormState> {
   state = { characterName: localStorage.getItem('cachedName') || '' };
 
   componentDidMount() {

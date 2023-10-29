@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export type ResponseInfo = {
   count: number;
   pages: number;
@@ -29,4 +31,26 @@ export type CharacterData = {
 export type CharacterResponse = {
   info: ResponseInfo;
   results: CharacterData[];
+};
+
+export type CardProps = {
+  name: string;
+  status: string;
+  imageUrl: string;
+};
+
+export type ErrorBoundaryProps = { children: ReactNode };
+
+export type ErrorBoundaryState = { error: null | Error };
+
+export type ErrorButtonState = { error: boolean };
+
+export type SearchFormProps = { callback: (value: string) => void };
+
+export type SearchFormState = { characterName: string };
+
+export type AppState = {
+  characterName: string;
+  isFetching: boolean;
+  characters: CharacterData[];
 };

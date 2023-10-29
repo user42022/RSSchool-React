@@ -1,18 +1,14 @@
 import { Component } from 'react';
 import SearchForm from './search-form/SearchForm';
 import getCharacter from '../../api/api';
-import { CharacterData } from '../../types/types';
+import { AppState } from '../../types/types';
 import Card from './card/Card';
 import Loader from './loader/Loader';
 import ErrorButton from './errorButton/ErrorButton';
 import './App.css';
 
-class App extends Component {
-  state: {
-    characterName: string;
-    isFetching: boolean;
-    characters: CharacterData[];
-  } = {
+class App extends Component<Record<string, never>, AppState> {
+  state: AppState = {
     characterName: '',
     isFetching: false,
     characters: [],

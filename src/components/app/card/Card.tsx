@@ -1,11 +1,8 @@
 import { Component } from 'react';
+import { CardProps } from '../../../types/types';
 import './Card.css';
 
-class Card extends Component<{
-  name: string;
-  status: string;
-  imageUrl: string;
-}> {
+class Card extends Component<CardProps> {
   render() {
     return (
       <div className="card">

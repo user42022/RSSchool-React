@@ -1,7 +1,8 @@
 import { Component } from 'react';
+import { ErrorButtonState } from '../../../types/types';
 import './ErrorButton.css';
 
-class ErrorButton extends Component {
+class ErrorButton extends Component<Record<string, never>, ErrorButtonState> {
   state = { error: false };
 
   render() {
