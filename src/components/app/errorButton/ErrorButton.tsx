@@ -5,6 +5,10 @@ import './ErrorButton.css';
 class ErrorButton extends Component<Record<string, never>, ErrorButtonState> {
   state = { error: false };
 
+  causeError = () => {
+    this.setState({ error: true })
+  }
+
   render() {
     if (this.state.error) {
       throw new Error(`User's error`);
@@ -12,7 +16,7 @@ class ErrorButton extends Component<Record<string, never>, ErrorButtonState> {
 
     return (
       <button
-        onClick={() => this.setState({ error: true })}
+        onClick={this.causeError}
         className="error-button"
       >
         Error

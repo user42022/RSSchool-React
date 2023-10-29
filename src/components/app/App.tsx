@@ -13,22 +13,19 @@ class App extends Component<Record<string, never>, AppState> {
     characters: [],
   };
 
+  handleSearch = (searchName: string) => {
+    this.setState({ characterName: searchName, isFetching: true }, async () => {
+      localStorage.setItem('cachedName', this.state.characterName);
+      const response = await getCharacter(this.state.characterName);
+      this.setState({ isFetching: false, characters: response });
+    });
+  };
+
   render() {
     return (
       <>
         <div className="search-wrapper">
-          <SearchForm
-            callback={(value: string) => {
-              this.setState(
-                { characterName: value, isFetching: true },
-                async () => {
-                  localStorage.setItem('cachedName', this.state.characterName);
-                  const response = await getCharacter(this.state.characterName);
-                  this.setState({ isFetching: false, characters: response });
-                }
-              );
-            }}
-          />
+          <SearchForm handleSearch={this.handleSearch} />
         </div>
         <CardList
           characterList={this.state.characters}

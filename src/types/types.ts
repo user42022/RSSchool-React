@@ -45,7 +45,7 @@ export type ErrorBoundaryState = { error: null | Error };
 
 export type ErrorButtonState = { error: boolean };
 
-export type SearchFormProps = { callback: (value: string) => void };
+export type SearchFormProps = { handleSearch: (value: string) => void };
 
 export type SearchFormState = { characterName: string };
 
