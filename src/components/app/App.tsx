@@ -7,11 +7,12 @@ import Card from './card/Card';
 import Loader from './loader/Loader';
 import ErrorButton from './errorButton/ErrorButton';
 
-class App extends Component<
-  unknown,
-  { fetchValue: string; isFetching: boolean; characters: CharacterData[] }
-> {
-  state = {
+class App extends Component {
+  state: {
+    fetchValue: string;
+    isFetching: boolean;
+    characters: CharacterData[];
+  } = {
     fetchValue: '',
     isFetching: false,
     characters: [],
