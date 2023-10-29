@@ -54,3 +54,8 @@ export type AppState = {
   isFetching: boolean;
   characters: CharacterData[];
 };
+
+export type CardListProps = {
+  characterList: CharacterData[];
+  isLoading: boolean;
+};

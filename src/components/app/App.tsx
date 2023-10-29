@@ -2,8 +2,7 @@ import { Component } from 'react';
 import SearchForm from './search-form/SearchForm';
 import getCharacter from '../../api/api';
 import { AppState } from '../../types/types';
-import Card from './card/Card';
-import Loader from './loader/Loader';
+import CardList from './CardList/CardList';
 import ErrorButton from './errorButton/ErrorButton';
 import './App.css';
 
@@ -31,21 +30,10 @@ class App extends Component<Record<string, never>, AppState> {
             }}
           />
         </div>
-        <div className="card-wrapper">
-          {this.state.isFetching ? <Loader></Loader> : ''}
-          {this.state.characters.length ? (
-            this.state.characters.map((character) => (
-              <Card
-                key={character.id}
-                name={character.name}
-                status={character.status}
-                imageUrl={character.image}
-              />
-            ))
-          ) : (
-            <div className="not-found">results not found</div>
-          )}
-        </div>
+        <CardList
+          characterList={this.state.characters}
+          isLoading={this.state.isFetching}
+        />
         <ErrorButton />
       </>
     );
