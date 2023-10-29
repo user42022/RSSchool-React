@@ -3,6 +3,7 @@ import SearchForm from './search-form/SearchForm';
 import './App.css';
 import fetchQuery from '../../api/api';
 import { CharacterData } from '../../types/types';
+import Card from './card/Card';
 
 class App extends Component<
   unknown,
@@ -34,7 +35,12 @@ class App extends Component<
         <div className="card-wrapper">
           {this.state.characters.length ? (
             this.state.characters.map((character, idx) => (
-              <div key={idx}>{character['name']}</div>
+              <Card
+                key={idx}
+                name={character['name']}
+                status={character['status']}
+                imageUrl={character['image']}
+              ></Card>
             ))
           ) : (
             <div>results not found</div>
