@@ -26,7 +26,7 @@ export type CharacterData = {
   created: string;
 };
 
-export type Response = {
+export type CharacterResponse = {
   info: ResponseInfo;
   results: CharacterData[];
 };

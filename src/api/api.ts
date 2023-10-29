@@ -1,9 +1,9 @@
-import { Response } from '../types/types';
+import { CharacterResponse } from '../types/types';
 
-const fetchQuery = async (fetchValue: string) => {
-  const response: Response = await (
+const getCharacter = async (characterName: string) => {
+  const response: CharacterResponse = await (
     await fetch(
-      `https://rickandmortyapi.com/api/character/?name=${fetchValue}&page=1`,
+      `https://rickandmortyapi.com/api/character/?name=${characterName}&page=1`,
       { method: 'GET' }
     )
   ).json();
@@ -11,4 +11,4 @@ const fetchQuery = async (fetchValue: string) => {
   return response?.results || [];
 };
 
-export default fetchQuery;
+export default getCharacter;

@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import SearchForm from './search-form/SearchForm';
 import './App.css';
-import fetchQuery from '../../api/api';
+import getCharacter from '../../api/api';
 import { CharacterData } from '../../types/types';
 import Card from './card/Card';
 import Loader from './loader/Loader';
@@ -9,11 +9,11 @@ import ErrorButton from './errorButton/ErrorButton';
 
 class App extends Component {
   state: {
-    fetchValue: string;
+    characterName: string;
     isFetching: boolean;
     characters: CharacterData[];
   } = {
-    fetchValue: '',
+    characterName: '',
     isFetching: false,
     characters: [],
   };
@@ -25,10 +25,10 @@ class App extends Component {
           <SearchForm
             callback={(value: string) => {
               this.setState(
-                { fetchValue: value, isFetching: true },
+                { characterName: value, isFetching: true },
                 async () => {
-                  localStorage.setItem('cachedQuery', this.state.fetchValue);
-                  const response = await fetchQuery(this.state.fetchValue);
+                  localStorage.setItem('cachedQuery', this.state.characterName);
+                  const response = await getCharacter(this.state.characterName);
                   this.setState({ isFetching: false, characters: response });
                 }
               );

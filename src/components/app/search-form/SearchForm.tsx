@@ -3,12 +3,12 @@ import './SearchForm.css';
 
 class SearchForm extends Component<
   { callback: (value: string) => void },
-  { fetchValue: string }
+  { characterName: string }
 > {
-  state = { fetchValue: localStorage.getItem('cachedQuery') || '' };
+  state = { characterName: localStorage.getItem('cachedName') || '' };
 
   componentDidMount() {
-    this.props.callback(localStorage.getItem('cachedQuery') || '');
+    this.props.callback(localStorage.getItem('cachedName') || '');
   }
 
   render() {
@@ -17,15 +17,15 @@ class SearchForm extends Component<
         className="search-form"
         onSubmit={(event) => {
           event.preventDefault();
-          this.props.callback(this.state.fetchValue);
+          this.props.callback(this.state.characterName);
         }}
       >
         <input
           className="search-input"
-          defaultValue={this.state.fetchValue}
+          defaultValue={this.state.characterName}
           placeholder="type character name"
           onInput={(event) => {
-            this.setState({ fetchValue: event.currentTarget.value });
+            this.setState({ characterName: event.currentTarget.value });
           }}
         />
         <button className="search-button">
