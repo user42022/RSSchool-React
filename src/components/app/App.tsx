@@ -40,13 +40,13 @@ class App extends Component<Record<string, never>, AppState> {
                 name={character['name']}
                 status={character['status']}
                 imageUrl={character['image']}
-              ></Card>
+              />
             ))
           ) : (
             <div className="not-found">results not found</div>
           )}
         </div>
-        <ErrorButton></ErrorButton>
+        <ErrorButton />
       </>
     );
   }
