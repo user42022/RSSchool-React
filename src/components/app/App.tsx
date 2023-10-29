@@ -34,12 +34,12 @@ class App extends Component<Record<string, never>, AppState> {
         <div className="card-wrapper">
           {this.state.isFetching ? <Loader></Loader> : ''}
           {this.state.characters.length ? (
-            this.state.characters.map((character, idx) => (
+            this.state.characters.map((character) => (
               <Card
-                key={idx}
-                name={character['name']}
-                status={character['status']}
-                imageUrl={character['image']}
+                key={character.id}
+                name={character.name}
+                status={character.status}
+                imageUrl={character.image}
               />
             ))
           ) : (
