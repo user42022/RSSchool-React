@@ -6,8 +6,8 @@ class ErrorButton extends Component<Record<string, never>, ErrorButtonState> {
   state = { error: false };
 
   causeError = () => {
-    this.setState({ error: true })
-  }
+    this.setState({ error: true });
+  };
 
   render() {
     if (this.state.error) {
@@ -15,10 +15,7 @@ class ErrorButton extends Component<Record<string, never>, ErrorButtonState> {
     }
 
     return (
-      <button
-        onClick={this.causeError}
-        className="error-button"
-      >
+      <button onClick={this.causeError} className="error-button">
         Error
       </button>
     );
