@@ -1,0 +1,18 @@
+.card {
+  width: 15rem;
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.3rem;
+  border: 1px solid black;
+  border-radius: 2rem;
+  overflow: hidden;
+}
+
+.character-image {
+  width: 100%;
+}
+
+.character-name,
+.character-status {
+  text-align: center;
+}

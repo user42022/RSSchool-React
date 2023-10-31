@@ -1,0 +1,21 @@
+.error-button {
+  position: fixed;
+  bottom: 3rem;
+  right: 3rem;
+  padding: 0.2rem 0.7rem;
+  font-size: 1.5rem;
+  background-color: red;
+  opacity: 0.5;
+  border: none;
+  border-radius: 1rem;
+  transition: opacity 0.2s;
+}
+
+.error-button:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.error-button:active {
+  opacity: 1;
+}
