@@ -1,4 +1,3 @@
-import { Component } from 'react';
 import './Card.css';
 
 type CardProps = {
@@ -7,20 +6,18 @@ type CardProps = {
   imageUrl: string;
 };
 
-class Card extends Component<CardProps> {
-  render() {
-    return (
-      <div className="card">
-        <div className="character-name">name: {this.props.name}</div>
-        <div className="character-status">status: {this.props.status}</div>
-        <img
-          src={this.props.imageUrl}
-          alt={`${this.props.name}-image`}
-          className="character-image"
-        />
-      </div>
-    );
-  }
+function Card(props: CardProps) {
+  return (
+    <div className="card">
+      <div className="character-name">name: {props.name}</div>
+      <div className="character-status">status: {props.status}</div>
+      <img
+        src={props.imageUrl}
+        alt={`${props.name}-image`}
+        className="character-image"
+      />
+    </div>
+  );
 }
 
 export default Card;
