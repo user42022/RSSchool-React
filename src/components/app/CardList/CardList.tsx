@@ -1,8 +1,13 @@
 import { Component } from 'react';
 import Loader from '../loader/Loader';
 import Card from '../card/Card';
-import { CardListProps } from '../../../types/types';
 import './CardList.css';
+import { CharacterData } from '../../../types/types';
+
+type CardListProps = {
+  characterList: CharacterData[];
+  isLoading: boolean;
+};
 
 class CardList extends Component<CardListProps> {
   render() {

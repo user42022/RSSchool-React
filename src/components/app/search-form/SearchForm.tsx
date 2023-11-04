@@ -1,6 +1,8 @@
 import { Component } from 'react';
-import { SearchFormProps, SearchFormState } from '../../../types/types';
 import './SearchForm.css';
+
+type SearchFormProps = { handleSearch: (value: string) => void };
+type SearchFormState = { characterName: string };
 
 class SearchForm extends Component<SearchFormProps, SearchFormState> {
   state = { characterName: localStorage.getItem('cachedName') || '' };
