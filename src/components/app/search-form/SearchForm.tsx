@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import './SearchForm.css';
+import { GetCharacterParams } from '../../../types/types';
 
-type SearchFormProps = { handleSearch: (value: string) => void };
+type SearchFormProps = {
+  handleSearch: (searchParams: GetCharacterParams) => void;
+};
 
 function SearchForm(props: SearchFormProps) {
   const [characterName, setCharacterName] = useState(
@@ -10,7 +13,11 @@ function SearchForm(props: SearchFormProps) {
 
   const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    props.handleSearch(characterName);
+    props.handleSearch({
+      pageNumber: 1,
+      pageSize: 10,
+      characterName: characterName,
+    });
   };
 
   const typeText = (event: React.FormEvent<HTMLInputElement>) => {
@@ -18,7 +25,11 @@ function SearchForm(props: SearchFormProps) {
   };
 
   useEffect(() => {
-    props.handleSearch(localStorage.getItem('cachedName') || '');
+    props.handleSearch({
+      pageNumber: 1,
+      pageSize: 10,
+      characterName: localStorage.getItem('cachedName') || '',
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

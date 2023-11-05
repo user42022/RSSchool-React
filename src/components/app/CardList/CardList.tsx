@@ -16,9 +16,11 @@ function CardList(props: CardListProps) {
         props.characterList.map((character) => (
           <Card
             key={character.id}
-            name={character.name}
-            status={character.status}
-            imageUrl={character.image}
+            name={character.attributes.name || 'Unknown'}
+            status={character.attributes.died ? 'Dead' : 'Alive'}
+            imageUrl={
+              character.attributes.image || `/svg/no-image-svgrepo-com.svg`
+            }
           />
         ))
       ) : (
