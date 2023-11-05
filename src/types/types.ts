@@ -5,7 +5,7 @@ export type GetCharacterParams = {
   id?: number;
 };
 
-type MetaInfo = {
+export type MetaInfo = {
   pagination: {
     current: number;
     records: number;

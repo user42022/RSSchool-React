@@ -4,7 +4,7 @@ const source: string = 'https://api.potterdb.com/v1/';
 
 const getCharacter = async (getCharacterParams: GetCharacterParams) => {
   const { id, pageSize, pageNumber, characterName } = getCharacterParams;
-  const response: CharacterResponse = await (
+  const { data, meta }: CharacterResponse = await (
     await fetch(
       `${source}/characters` +
         (id
@@ -14,7 +14,16 @@ const getCharacter = async (getCharacterParams: GetCharacterParams) => {
     )
   ).json();
 
-  return response.data || [];
+  return (
+    { data, meta } || {
+      data: [],
+      meta: {
+        pagination: { current: 0, records: 0 },
+        copyright: '',
+        generated_at: '',
+      },
+    }
+  );
 };
 
 export default getCharacter;
