@@ -1,0 +1,22 @@
+.detailed-window {
+  position: fixed;
+  width: 20rem;
+  height: 20rem;
+  background-color: aqua;
+  z-index: 3;
+  right: 0;
+  top: calc(50% - 10rem);
+}
+
+.detailed-window .loader {
+  left: calc(50% - 2.5rem);
+}
+
+.close-button {
+  width: fit-content;
+  margin: 1rem 0 1rem auto;
+}
+
+.close-button:hover {
+  cursor: pointer;
+}

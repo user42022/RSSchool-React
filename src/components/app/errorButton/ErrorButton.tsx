@@ -1,11 +1,16 @@
 import { useState } from 'react';
 import './ErrorButton.css';
 
-function ErrorButton() {
+type ErrorButtonProps = {
+  closeDetailed: () => void;
+};
+
+function ErrorButton(props: ErrorButtonProps) {
   const [error, setError] = useState(false);
 
   const causeError = () => {
     setError(true);
+    props.closeDetailed();
   };
 
   if (error) {

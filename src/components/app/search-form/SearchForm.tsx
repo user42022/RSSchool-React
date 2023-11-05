@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './SearchForm.css';
 import { GetCharacterParams, MetaInfo } from '../../../types/types';
 import { useSearchParams } from 'react-router-dom';
@@ -11,77 +11,80 @@ type SearchFormProps = {
 
 function SearchForm(props: SearchFormProps) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [searchValue, setSearchValue] = useState(
+
+  const [characterName, setCharacterName] = useState(
     searchParams.get('characterName') ??
       localStorage.getItem('cachedName') ??
       ''
   );
-  const [pageOptions, setPageOptions] = useState({
-    pageSize: 10,
-    pageNumber: +(searchParams.get('pageNumber') || 1),
-    characterName:
-      searchParams.get('characterName') ??
-      localStorage.getItem('cachedName') ??
-      '',
+  const [pageSize, setPageSize] = useState(10);
+
+  const [pageNumber, setPageNumber] = useState(
+    +(searchParams.get('pageNumber') || 1)
+  );
+
+  const ref = useRef<GetCharacterParams>({
+    characterName,
+    pageNumber,
+    pageSize,
   });
 
   const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setPageOptions({
-      pageSize: pageOptions.pageSize,
-      pageNumber: 1,
-      characterName: searchValue,
-    });
+    setPageNumber(1);
+    ref.current.pageNumber = 1;
 
-    searchParams.set('characterName', pageOptions.characterName);
-    searchParams.set('pageNumber', `${pageOptions.pageNumber}`);
+    searchParams.set('characterName', ref.current.characterName);
+    searchParams.set('pageNumber', `${ref.current.pageNumber}`);
 
     setSearchParams(searchParams);
-    if (
-      searchParams.get('characterName') === pageOptions.characterName &&
-      pageOptions.pageNumber === 1
-    ) {
-      props.handleSearch(pageOptions);
-    }
+    props.handleSearch(ref.current);
   };
 
   const typeText = (event: React.FormEvent<HTMLInputElement>) => {
-    setSearchValue(event.currentTarget.value);
+    setCharacterName(event.currentTarget.value);
+    ref.current.characterName = event.currentTarget.value;
   };
 
   const changePageSize = (event: React.FormEvent<HTMLInputElement>) => {
-    setPageOptions({
-      pageSize: +(event.currentTarget.value || pageOptions.pageSize),
-      pageNumber: 1,
-      characterName: pageOptions.characterName,
-    });
+    setPageSize(+(event.currentTarget.value || 10));
+    ref.current.pageSize = +(event.currentTarget.value || 10);
+    ref.current.pageNumber = 1;
+
+    if (pageNumber === 1) {
+      props.handleSearch({
+        characterName,
+        pageNumber,
+        pageSize: +(event.currentTarget.value || 10),
+      });
+    } else {
+      searchParams.set('pageNumber', `1`);
+
+      setSearchParams(searchParams);
+    }
   };
 
   useEffect(() => {
-    props.handleSearch(pageOptions);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const query = searchParams.get('characterName');
+    const number = searchParams.get('pageNumber');
 
-  useEffect(() => {
-    searchParams.set('pageNumber', `${pageOptions.pageNumber}`);
-    searchParams.set('characterName', `${pageOptions.characterName}`);
+    if (query === null || number === null) {
+      searchParams.set('characterName', ref.current.characterName);
+      searchParams.set('pageNumber', `${ref.current.pageNumber}`);
+      setSearchParams(searchParams);
 
-    setSearchParams(searchParams);
-    props.handleSearch(pageOptions);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageOptions]);
-
-  useEffect(() => {
-    setPageOptions({
-      pageNumber: +(searchParams.get('pageNumber') ?? 1),
-      pageSize: pageOptions.pageSize,
-      characterName:
-        searchParams.get('characterName') ??
-        localStorage.getItem('cachedName') ??
-        '',
-    });
+      props.handleSearch(ref.current);
+    } else if (
+      query !== ref.current.characterName ||
+      number !== `${ref.current.pageNumber}`
+    ) {
+      ref.current.characterName = query ?? '';
+      ref.current.pageNumber = +(number ?? 1);
+      setCharacterName(query ?? '');
+      setPageNumber(+(number ?? 1));
+    }
+    props.handleSearch(ref.current);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
@@ -89,7 +92,7 @@ function SearchForm(props: SearchFormProps) {
     <form className="search-form" onSubmit={submitForm}>
       <input
         className="search-input"
-        value={searchValue}
+        value={characterName}
         placeholder="type character name"
         onInput={typeText}
       />
@@ -102,7 +105,7 @@ function SearchForm(props: SearchFormProps) {
         placeholder="pageSize"
         className="page-size"
         onInput={changePageSize}
-        value={pageOptions.pageSize}
+        value={pageSize}
       ></input>
       {props.isFetching ? (
         ''
@@ -112,33 +115,33 @@ function SearchForm(props: SearchFormProps) {
             className="pagination-button"
             type="button"
             onClick={() => {
-              setPageOptions({
-                pageNumber: pageOptions.pageNumber - 1,
-                pageSize: pageOptions.pageSize,
-                characterName: pageOptions.characterName,
-              });
+              setPageNumber(pageNumber - 1);
+              ref.current.pageNumber--;
+              searchParams.set('pageNumber', `${ref.current.pageNumber}`);
+
+              setSearchParams(searchParams);
             }}
-            disabled={props.meta.pagination.current === 1}
+            disabled={props.meta.pagination.current < 2}
           >
             Prev
           </button>
           <div>
             Current: {props.meta.pagination.current}/
-            {Math.ceil(props.meta.pagination.records / pageOptions.pageSize)}
+            {Math.ceil(props.meta.pagination.records / pageSize)}
           </div>
           <button
             className="pagination-button"
             type="button"
             onClick={() => {
-              setPageOptions({
-                pageNumber: pageOptions.pageNumber + 1,
-                pageSize: pageOptions.pageSize,
-                characterName: pageOptions.characterName,
-              });
+              setPageNumber(pageNumber + 1);
+              ref.current.pageNumber++;
+
+              searchParams.set('pageNumber', `${ref.current.pageNumber}`);
+              setSearchParams(searchParams);
             }}
             disabled={
               props.meta.pagination.current >=
-              Math.ceil(props.meta.pagination.records / pageOptions.pageSize)
+              Math.ceil(props.meta.pagination.records / pageSize)
             }
           >
             Next

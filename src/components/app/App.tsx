@@ -5,7 +5,7 @@ import CardList from './CardList/CardList';
 import ErrorButton from './errorButton/ErrorButton';
 import { CharacterData, GetCharacterParams } from '../../types/types';
 import './App.css';
-// import { useSearchParams } from 'react-router-dom';
+import { Outlet, useSearchParams } from 'react-router-dom';
 
 function App() {
   const [isFetching, setIsFetching] = useState(false);
@@ -16,9 +16,16 @@ function App() {
     generated_at: '',
   });
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const closeDetailed = () => {
+    searchParams.delete('detailedId');
+    setSearchParams(searchParams);
+  };
+
   const handleSearch = async (searchParams: GetCharacterParams) => {
     setIsFetching(true);
-    const { data, meta } = await getCharacter(searchParams);
+    const { data, meta } = await getCharacter<CharacterData[]>(searchParams);
     localStorage.setItem('cachedName', searchParams.characterName);
     setCharacters(data);
     setMeta(meta);
@@ -34,8 +41,13 @@ function App() {
           isFetching={isFetching}
         />
       </div>
-      <CardList characterList={characters} isLoading={isFetching} />
-      <ErrorButton />
+      <CardList
+        characterList={characters}
+        isLoading={isFetching}
+        closeDetailed={closeDetailed}
+      />
+      <ErrorButton closeDetailed={closeDetailed} />
+      <Outlet />
     </>
   );
 }

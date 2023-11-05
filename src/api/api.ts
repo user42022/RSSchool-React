@@ -2,14 +2,15 @@ import { CharacterResponse, GetCharacterParams } from '../types/types';
 
 const source: string = 'https://api.potterdb.com/v1/';
 
-const getCharacter = async (getCharacterParams: GetCharacterParams) => {
-  const { id, pageSize, pageNumber, characterName } = getCharacterParams;
-  const { data, meta }: CharacterResponse = await (
+const getCharacter = async <T>(
+  getCharacterParams: GetCharacterParams | string
+) => {
+  const { data, meta }: CharacterResponse<T> = await (
     await fetch(
       `${source}/characters` +
-        (id
-          ? `/${id}`
-          : `?page[size]=${pageSize}&page[number]=${pageNumber}&filter[name_cont]=${characterName}`),
+        (typeof getCharacterParams === 'string'
+          ? `/${getCharacterParams}`
+          : `?page[size]=${getCharacterParams.pageSize}&page[number]=${getCharacterParams.pageNumber}&filter[name_cont]=${getCharacterParams.characterName}`),
       { method: 'GET' }
     )
   ).json();

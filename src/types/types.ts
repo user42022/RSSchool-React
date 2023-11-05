@@ -2,7 +2,6 @@ export type GetCharacterParams = {
   characterName: string;
   pageSize: number;
   pageNumber: number;
-  id?: number;
 };
 
 export type MetaInfo = {
@@ -50,7 +49,7 @@ export type CharacterData = {
   };
 };
 
-export type CharacterResponse = {
-  data: CharacterData[];
+export type CharacterResponse<T> = {
+  data: T;
   meta: MetaInfo;
 };
