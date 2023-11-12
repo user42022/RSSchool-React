@@ -40,7 +40,7 @@ function CardList() {
   ]);
 
   return (
-    <div className="card-list">
+    <div className="card-list" onClickCapture={context?.closeDetailedCard}>
       {context?.isFetching.value ? <Loader /> : ''}
       {characters.length ? (
         characters.map((character) => (

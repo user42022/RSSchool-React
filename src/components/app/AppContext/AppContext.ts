@@ -25,6 +25,7 @@ interface Context {
     value: boolean;
     setValue: React.Dispatch<React.SetStateAction<boolean>>;
   };
+  closeDetailedCard: () => void;
 }
 
 const AppContext = createContext<Context | null>(null);

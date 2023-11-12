@@ -22,6 +22,13 @@ function App() {
   const [records, setRecords] = useState(0);
   const [isFetching, setIsFetching] = useState(false);
 
+  // const searchWrapper = useRef<HTMLDivElement>(null)
+
+  const closeDetailedCard = () => {
+    searchParams.delete('detailedId');
+    setSearchParams(searchParams);
+  };
+
   const context = {
     currentPage: {
       value: currentPage,
@@ -47,6 +54,7 @@ function App() {
       value: isFetching,
       setValue: setIsFetching,
     },
+    closeDetailedCard,
   };
 
   useEffect(() => {
@@ -66,18 +74,13 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const closeDetailed = () => {
-    searchParams.delete('detailedId');
-    setSearchParams(searchParams);
-  };
-
   return (
     <AppContext.Provider value={context}>
-      <div className="search-wrapper">
+      <div className="search-wrapper" onClickCapture={closeDetailedCard}>
         <SearchForm />
       </div>
       <CardList />
-      <ErrorButton closeDetailed={closeDetailed} />
+      <ErrorButton />
       {detailed ? <Outlet /> : ''}
     </AppContext.Provider>
   );

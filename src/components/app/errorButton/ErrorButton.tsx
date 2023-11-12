@@ -1,16 +1,14 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import './ErrorButton.css';
+import AppContext from '../AppContext/AppContext';
 
-type ErrorButtonProps = {
-  closeDetailed: () => void;
-};
-
-function ErrorButton(props: ErrorButtonProps) {
+function ErrorButton() {
   const [error, setError] = useState(false);
+  const context = useContext(AppContext);
 
   const causeError = () => {
     setError(true);
-    props.closeDetailed();
+    context?.closeDetailedCard();
   };
 
   if (error) {
