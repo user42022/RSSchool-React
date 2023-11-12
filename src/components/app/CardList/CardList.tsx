@@ -1,29 +1,62 @@
-import { Component } from 'react';
 import Loader from '../loader/Loader';
 import Card from '../card/Card';
-import { CardListProps } from '../../../types/types';
+import { useContext, useEffect, useState } from 'react';
+import AppContext from '../AppContext/AppContext';
+import { getCharacters } from '../../../api/api';
+import { Character } from '../../../types/types';
 import './CardList.css';
 
-class CardList extends Component<CardListProps> {
-  render() {
-    return (
-      <div className="card-list">
-        {this.props.isLoading ? <Loader /> : ''}
-        {this.props.characterList.length ? (
-          this.props.characterList.map((character) => (
-            <Card
-              key={character.id}
-              name={character.name}
-              status={character.status}
-              imageUrl={character.image}
-            />
-          ))
-        ) : (
-          <div className="not-found">Results not found</div>
-        )}
-      </div>
-    );
-  }
+function CardList() {
+  const [characters, setCharacters] = useState<Character[]>([]);
+  const context = useContext(AppContext);
+
+  const handleSearch = async () => {
+    context?.isFetching.setValue(true);
+
+    const requestParams = {
+      'filter[name_cont]': context?.characterName.value || '',
+      'page[number]': `${context?.currentPage.value || 1}`,
+      'page[size]': `${context?.pageSize.value || 10}`,
+    };
+
+    const { data, meta } = await getCharacters(requestParams);
+    localStorage.setItem('cachedName', requestParams['filter[name_cont]']);
+    setCharacters(data);
+    context?.records.setValue(meta.pagination.records);
+    context?.isFetching.setValue(false);
+  };
+
+  useEffect(() => {
+    if (context) {
+      handleSearch();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    context?.pageSize.value,
+    context?.characterName.value,
+    context?.currentPage.value,
+  ]);
+
+  return (
+    <div className="card-list" onClickCapture={context?.closeDetailedCard}>
+      {context?.isFetching.value ? <Loader /> : ''}
+      {characters.length ? (
+        characters.map((character) => (
+          <Card
+            key={character.id}
+            id={character.id}
+            name={character.attributes.name || 'Unknown'}
+            status={character.attributes.died ? 'Dead' : 'Alive'}
+            imageUrl={
+              character.attributes.image || `/svg/no-image-svgrepo-com.svg`
+            }
+          />
+        ))
+      ) : (
+        <div className="not-found">Results not found</div>
+      )}
+    </div>
+  );
 }
 
 export default CardList;

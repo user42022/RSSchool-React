@@ -1,21 +1,31 @@
-import { Component } from 'react';
-import { CardProps } from '../../../types/types';
+import { useSearchParams } from 'react-router-dom';
 import './Card.css';
 
-class Card extends Component<CardProps> {
-  render() {
-    return (
-      <div className="card">
-        <div className="character-name">name: {this.props.name}</div>
-        <div className="character-status">status: {this.props.status}</div>
-        <img
-          src={this.props.imageUrl}
-          alt={`${this.props.name}-image`}
-          className="character-image"
-        />
-      </div>
-    );
-  }
+type CardProps = {
+  name: string;
+  status: string;
+  imageUrl: string;
+  id: string;
+};
+
+function Card(props: CardProps) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const showDetailedCard = () => {
+    searchParams.set('detailedId', props.id);
+    setSearchParams(searchParams);
+  };
+
+  return (
+    <div className="card" onClick={showDetailedCard}>
+      <div className="character-name">name: {props.name}</div>
+      <div className="character-status">status: {props.status}</div>
+      <img
+        src={props.imageUrl}
+        alt={`${props.name}-image`}
+        className="character-image"
+      />
+    </div>
+  );
 }
 
 export default Card;

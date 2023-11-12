@@ -1,25 +1,25 @@
-import { Component } from 'react';
-import { ErrorButtonState } from '../../../types/types';
+import { useContext, useState } from 'react';
+import AppContext from '../AppContext/AppContext';
 import './ErrorButton.css';
 
-class ErrorButton extends Component<Record<string, never>, ErrorButtonState> {
-  state = { error: false };
+function ErrorButton() {
+  const [error, setError] = useState(false);
+  const context = useContext(AppContext);
 
-  causeError = () => {
-    this.setState({ error: true });
+  const causeError = () => {
+    setError(true);
+    context?.closeDetailedCard();
   };
 
-  render() {
-    if (this.state.error) {
-      throw new Error(`User's error`);
-    }
-
-    return (
-      <button onClick={this.causeError} className="error-button">
-        Error
-      </button>
-    );
+  if (error) {
+    throw new Error(`User's error`);
   }
+
+  return (
+    <button onClick={causeError} className="error-button">
+      Error
+    </button>
+  );
 }
 
 export default ErrorButton;

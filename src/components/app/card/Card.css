@@ -14,5 +14,6 @@
 
 .character-name,
 .character-status {
+  padding: 0 0.5rem;
   text-align: center;
 }

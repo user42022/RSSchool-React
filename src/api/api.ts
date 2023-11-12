@@ -1,14 +1,41 @@
-import { CharacterResponse } from '../types/types';
+import { Character, CharactersResponse, RequestParams } from '../types/types';
 
-const getCharacter = async (characterName: string) => {
-  const response: CharacterResponse = await (
-    await fetch(
-      `https://rickandmortyapi.com/api/character/?name=${characterName}&page=1`,
-      { method: 'GET' }
-    )
-  ).json();
+const source: string = 'https://api.potterdb.com/v1/';
 
-  return response.results || [];
+const createRequestQuery = (
+  requestParams: Partial<RequestParams>
+): [string, Record<string, string>] => {
+  const charactersLink = `${source}/characters`;
+
+  const path = requestParams.path?.join('/') || '';
+  const searchQuery = requestParams.query
+    ? Object.entries(requestParams.query)
+        .map((entry) => entry.join('='))
+        .join('&')
+    : '';
+
+  const link =
+    charactersLink +
+    (path ? `/${path}` : path) +
+    (searchQuery ? `/?${searchQuery}` : searchQuery);
+
+  return [link, { method: 'GET' }];
 };
 
-export default getCharacter;
+export const getCharacters = async (searchQuery: RequestParams['query']) => {
+  const fetchArgs = createRequestQuery({ query: searchQuery });
+  const charactersResponse: CharactersResponse = await (
+    await fetch(...fetchArgs)
+  ).json();
+
+  return charactersResponse;
+};
+
+export const getCharacterById = async (searchQuery: RequestParams['path']) => {
+  const fetchArgs = createRequestQuery({ path: searchQuery });
+  const charactersResponse: { data: Character } = await (
+    await fetch(...fetchArgs)
+  ).json();
+
+  return charactersResponse;
+};
