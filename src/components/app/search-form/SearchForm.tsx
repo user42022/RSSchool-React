@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
-import './SearchForm.css';
 import AppContext from '../AppContext/AppContext';
 import { useSearchParams } from 'react-router-dom';
+import './SearchForm.css';
 
 function SearchForm() {
   const context = useContext(AppContext);
@@ -21,7 +21,7 @@ function SearchForm() {
     }
   };
 
-  const typeText = (event: React.FormEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: React.FormEvent<HTMLInputElement>) => {
     setCharacterName(event.currentTarget.value);
   };
 
@@ -53,7 +53,7 @@ function SearchForm() {
         className="search-input"
         value={characterName}
         placeholder="type character name"
-        onInput={typeText}
+        onInput={handleInputChange}
       />
       <button className="search-button">
         <img src="/svg/search.svg" />

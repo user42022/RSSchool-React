@@ -1,10 +1,10 @@
 import Loader from '../loader/Loader';
 import Card from '../card/Card';
-import './CardList.css';
 import { useContext, useEffect, useState } from 'react';
 import AppContext from '../AppContext/AppContext';
 import { getCharacters } from '../../../api/api';
 import { Character } from '../../../types/types';
+import './CardList.css';
 
 function CardList() {
   const [characters, setCharacters] = useState<Character[]>([]);

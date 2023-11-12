@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import SearchForm from './search-form/SearchForm';
 import CardList from './CardList/CardList';
 import ErrorButton from './errorButton/ErrorButton';
-import './App.css';
 import { Outlet, useSearchParams } from 'react-router-dom';
 import AppContext from './AppContext/AppContext';
+import './App.css';
 
 function App() {
   const [searchParams, setSearchParams] = useSearchParams();

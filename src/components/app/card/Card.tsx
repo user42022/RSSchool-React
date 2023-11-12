@@ -10,13 +10,13 @@ type CardProps = {
 
 function Card(props: CardProps) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const showDetailedId = () => {
+  const showDetailedCard = () => {
     searchParams.set('detailedId', props.id);
     setSearchParams(searchParams);
   };
 
   return (
-    <div className="card" onClick={showDetailedId}>
+    <div className="card" onClick={showDetailedCard}>
       <div className="character-name">name: {props.name}</div>
       <div className="character-status">status: {props.status}</div>
       <img

@@ -1,10 +1,10 @@
 import { useSearchParams } from 'react-router-dom';
-import './Detailed.css';
 import { useContext, useEffect, useState } from 'react';
 import { getCharacterById } from '../../../api/api';
 import Loader from '../loader/Loader';
 import { Character } from '../../../types/types';
 import AppContext from '../AppContext/AppContext';
+import './Detailed.css';
 
 function Detailed() {
   const context = useContext(AppContext);

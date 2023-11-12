@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
-import './ErrorButton.css';
 import AppContext from '../AppContext/AppContext';
+import './ErrorButton.css';
 
 function ErrorButton() {
   const [error, setError] = useState(false);
