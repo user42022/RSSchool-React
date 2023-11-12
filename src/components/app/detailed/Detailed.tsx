@@ -55,7 +55,6 @@ function Detailed() {
   const handleSearch = async (searchId: string) => {
     setIsFetching(true);
     const { data } = await getCharacterById([searchId]);
-    console.log(data);
     setIsFetching(false);
     data && setDetailedInfo(data);
   };

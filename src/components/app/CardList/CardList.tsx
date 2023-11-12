@@ -20,7 +20,6 @@ function CardList() {
     };
 
     const { data, meta } = await getCharacters(requestParams);
-    console.log(data);
     localStorage.setItem('cachedName', requestParams['filter[name_cont]']);
     setCharacters(data);
     context?.records.setValue(meta.pagination.records);
@@ -30,7 +29,6 @@ function CardList() {
   useEffect(() => {
     if (context) {
       handleSearch();
-      console.log(context);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
