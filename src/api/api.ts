@@ -1,30 +1,41 @@
-import { CharacterResponse, GetCharacterParams } from '../types/types';
+import { Character, CharactersResponse, RequestParams } from '../types/types';
 
 const source: string = 'https://api.potterdb.com/v1/';
 
-const getCharacter = async <T>(
-  getCharacterParams: GetCharacterParams | string
-) => {
-  const { data, meta }: CharacterResponse<T> = await (
-    await fetch(
-      `${source}/characters` +
-        (typeof getCharacterParams === 'string'
-          ? `/${getCharacterParams}`
-          : `?page[size]=${getCharacterParams.pageSize}&page[number]=${getCharacterParams.pageNumber}&filter[name_cont]=${getCharacterParams.characterName}`),
-      { method: 'GET' }
-    )
-  ).json();
+const createRequestQuery = (
+  requestParams: Partial<RequestParams>
+): [string, Record<string, string>] => {
+  const charactersLink = `${source}/characters`;
 
-  return (
-    { data, meta } || {
-      data: [],
-      meta: {
-        pagination: { current: 0, records: 0 },
-        copyright: '',
-        generated_at: '',
-      },
-    }
-  );
+  const path = requestParams.path?.join('/') || '';
+  const searchQuery = requestParams.query
+    ? Object.entries(requestParams.query)
+        .map((entry) => entry.join('='))
+        .join('&')
+    : '';
+
+  const link =
+    charactersLink +
+    (path ? `/${path}` : path) +
+    (searchQuery ? `/?${searchQuery}` : searchQuery);
+
+  return [link, { method: 'GET' }];
 };
 
-export default getCharacter;
+export const getCharacters = async (searchQuery: RequestParams['query']) => {
+  const fetchArgs = createRequestQuery({ query: searchQuery });
+  const charactersResponse: CharactersResponse = await (
+    await fetch(...fetchArgs)
+  ).json();
+
+  return charactersResponse;
+};
+
+export const getCharacterById = async (searchQuery: RequestParams['path']) => {
+  const fetchArgs = createRequestQuery({ path: searchQuery });
+  const charactersResponse: { data: Character } = await (
+    await fetch(...fetchArgs)
+  ).json();
+
+  return charactersResponse;
+};

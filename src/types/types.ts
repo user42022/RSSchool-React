@@ -1,19 +1,16 @@
-export type GetCharacterParams = {
-  characterName: string;
-  pageSize: number;
-  pageNumber: number;
-};
+export interface RequestParams {
+  path: string[];
+  query: { [key: string]: string };
+}
 
-export type MetaInfo = {
+export interface ResponseInfo {
   pagination: {
     current: number;
     records: number;
   };
-  copyright: string;
-  generated_at: string;
-};
+}
 
-export type CharacterData = {
+export interface Character {
   id: string;
   type: string | null;
   attributes: {
@@ -47,9 +44,9 @@ export type CharacterData = {
   links: {
     self: string | null;
   };
-};
+}
 
-export type CharacterResponse<T> = {
-  data: T;
-  meta: MetaInfo;
-};
+export interface CharactersResponse {
+  data: Character[];
+  meta: ResponseInfo;
+}
