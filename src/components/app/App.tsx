@@ -1,54 +1,85 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SearchForm from './search-form/SearchForm';
-import getCharacter from '../../api/api';
 import CardList from './CardList/CardList';
 import ErrorButton from './errorButton/ErrorButton';
-import { CharacterData, GetCharacterParams } from '../../types/types';
 import './App.css';
 import { Outlet, useSearchParams } from 'react-router-dom';
+import AppContext from './AppContext/AppContext';
 
 function App() {
-  const [isFetching, setIsFetching] = useState(false);
-  const [characters, setCharacters] = useState<CharacterData[]>([]);
-  const [meta, setMeta] = useState({
-    pagination: { current: 0, records: 0 },
-    copyright: '',
-    generated_at: '',
-  });
-
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const [currentPage, setCurrentPage] = useState(
+    +(searchParams.get('pageNumber') || 1)
+  );
+  const [characterName, setCharacterName] = useState(
+    searchParams.get('characterName') ??
+      localStorage.getItem('cachedName') ??
+      ''
+  );
+  const [pageSize, setPageSize] = useState(10);
+  const [detailed, setDetailed] = useState(searchParams.get('detailedId'));
+  const [records, setRecords] = useState(0);
+  const [isFetching, setIsFetching] = useState(false);
+
+  const context = {
+    currentPage: {
+      value: currentPage,
+      setValue: setCurrentPage,
+    },
+    characterName: {
+      value: characterName,
+      setValue: setCharacterName,
+    },
+    pageSize: {
+      value: pageSize,
+      setValue: setPageSize,
+    },
+    detailed: {
+      value: detailed,
+      setValue: setDetailed,
+    },
+    records: {
+      value: records,
+      setValue: setRecords,
+    },
+    isFetching: {
+      value: isFetching,
+      setValue: setIsFetching,
+    },
+  };
+
+  useEffect(() => {
+    setCharacterName(
+      searchParams.get('characterName') ??
+        localStorage.getItem('cachedName') ??
+        ''
+    );
+    setCurrentPage(+(searchParams.get('pageNumber') || 1));
+    setDetailed(searchParams.get('detailedId'));
+  }, [searchParams]);
+
+  useEffect(() => {
+    searchParams.set('characterName', characterName);
+    searchParams.set('pageNumber', `${currentPage}`);
+    setSearchParams(searchParams);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const closeDetailed = () => {
     searchParams.delete('detailedId');
     setSearchParams(searchParams);
   };
 
-  const handleSearch = async (searchParams: GetCharacterParams) => {
-    setIsFetching(true);
-    const { data, meta } = await getCharacter<CharacterData[]>(searchParams);
-    localStorage.setItem('cachedName', searchParams.characterName);
-    setCharacters(data);
-    setMeta(meta);
-    setIsFetching(false);
-  };
-
   return (
-    <>
+    <AppContext.Provider value={context}>
       <div className="search-wrapper">
-        <SearchForm
-          handleSearch={handleSearch}
-          meta={meta}
-          isFetching={isFetching}
-        />
+        <SearchForm />
       </div>
-      <CardList
-        characterList={characters}
-        isLoading={isFetching}
-        closeDetailed={closeDetailed}
-      />
+      <CardList />
       <ErrorButton closeDetailed={closeDetailed} />
-      <Outlet />
-    </>
+      {detailed ? <Outlet /> : ''}
+    </AppContext.Provider>
   );
 }
 

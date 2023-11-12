@@ -1,16 +1,17 @@
 import { useSearchParams } from 'react-router-dom';
 import './Detailed.css';
-import { useEffect, useRef, useState } from 'react';
-import getCharacter from '../../../api/api';
-import { CharacterData } from './../../../types/types';
+import { useContext, useEffect, useState } from 'react';
+import { getCharacterById } from '../../../api/api';
 import Loader from '../loader/Loader';
+import { Character } from '../../../types/types';
+import AppContext from '../AppContext/AppContext';
 
 function Detailed() {
-  const ref = useRef<string | null>(null);
+  const context = useContext(AppContext);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [isFetching, setIsFetching] = useState(false);
-  const [detailedInfo, setDetailedInfo] = useState<CharacterData>({
+  const [detailedInfo, setDetailedInfo] = useState<Character>({
     id: '',
     type: '',
     attributes: {
@@ -49,101 +50,69 @@ function Detailed() {
   const closeDetailedWindow = () => {
     searchParams.delete('detailedId');
     setSearchParams(searchParams);
-    ref.current = null;
   };
 
   const handleSearch = async (searchId: string) => {
     setIsFetching(true);
-    const { data } = await getCharacter<CharacterData>(searchId);
+    const { data } = await getCharacterById([searchId]);
+    console.log(data);
     setIsFetching(false);
-    setDetailedInfo(data);
+    data && setDetailedInfo(data);
   };
 
   useEffect(() => {
-    const id = searchParams.get('detailedId');
-    if (ref.current !== id || ref.current === null) {
-      ref.current = id;
-      handleSearch(ref.current || '');
-    } else {
-      console.log('was empty ref');
+    if (context?.detailed.value) {
+      handleSearch(context.detailed.value);
     }
-  }, [searchParams]);
 
-  if (searchParams.get('detailedId') === null) {
-    return <></>;
-  } else {
-    return (
-      <div className="detailed-window">
-        <div onClick={closeDetailedWindow} className="close-button">
-          close
-        </div>
-        {isFetching ? <Loader /> : ''}
-        {/* <div>{`${JSON.stringify(detailedInfo)}`}</div> */}
-        <div className="character-name">
-          name: {detailedInfo.attributes.name}
-        </div>
-        <div className="character-status">
-          `Born:`{' '}
-          {detailedInfo.attributes.born
-            ? detailedInfo.attributes.born
-            : 'no data'}
-        </div>
-        <div className="character-status">
-          `Died:`{' '}
-          {detailedInfo.attributes.died
-            ? detailedInfo.attributes.died
-            : 'no data'}
-        </div>
-        <div className="character-status">
-          `Blood Status:`{' '}
-          {detailedInfo.attributes.blood_status
-            ? detailedInfo.attributes.blood_status
-            : 'no data'}
-        </div>
-        <div className="character-status">
-          `Jobs:`{' '}
-          {detailedInfo.attributes.jobs.length
-            ? detailedInfo.attributes.jobs.join(', ')
-            : 'no data'}
-        </div>
-        <div className="character-status">
-          `Alias names:`{' '}
-          {detailedInfo.attributes.alias_names.length
-            ? detailedInfo.attributes.alias_names.join(', ')
-            : 'no data'}
-        </div>
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [context?.detailed.value]);
 
-        <img
-          src={detailedInfo.attributes.image || '/svg/no-image-svgrepo-com.svg'}
-          alt={`${detailedInfo.attributes.name}-image`}
-          className="character-image"
-        />
+  return (
+    <div className="detailed-window">
+      <div onClick={closeDetailedWindow} className="close-button">
+        close
       </div>
-    );
-  }
+      {isFetching ? <Loader /> : ''}
+      <div className="character-name">name: {detailedInfo.attributes.name}</div>
+      <div className="character-status">
+        `Born:`{' '}
+        {detailedInfo.attributes.born
+          ? detailedInfo.attributes.born
+          : 'no data'}
+      </div>
+      <div className="character-status">
+        `Died:`{' '}
+        {detailedInfo.attributes.died
+          ? detailedInfo.attributes.died
+          : 'no data'}
+      </div>
+      <div className="character-status">
+        `Blood Status:`{' '}
+        {detailedInfo.attributes.blood_status
+          ? detailedInfo.attributes.blood_status
+          : 'no data'}
+      </div>
+      <div className="character-status">
+        `Jobs:`{' '}
+        {detailedInfo.attributes.jobs.length
+          ? detailedInfo.attributes.jobs.join(', ')
+          : 'no data'}
+      </div>
+      <div className="character-status">
+        `Alias names:`{' '}
+        {detailedInfo.attributes.alias_names.length
+          ? detailedInfo.attributes.alias_names.join(', ')
+          : 'no data'}
+      </div>
 
-  // return (
-  // 	<>
-  // { searchParams.get('detailedId') !== null ?
-  //   <div className="detailed-window">
-  // 		<div onClick={closeDetailedWindow}>close</div>
-  //       {isFetching ? <Loader/> : ''}
-  //       <div className="character-name">name: {detailedInfo.attributes.name}</div>
-  //       <div className="character-status">`Born:` {detailedInfo.attributes.born ? detailedInfo.attributes.born : 'no data'}</div>
-  //       <div className="character-status">`Died:` {detailedInfo.attributes.died ? detailedInfo.attributes.died : 'no data'}</div>
-  //       <div className="character-status">`Blood Status:` {detailedInfo.attributes.blood_status ? detailedInfo.attributes.blood_status : 'no data'}</div>
-  //       <div className="character-status">`Jobs:` {detailedInfo.attributes.jobs.length ? detailedInfo.attributes.jobs.join(', ') : 'no data'}</div>
-  //       <div className="character-status">`Alias names:` {detailedInfo.attributes.alias_names.length ? detailedInfo.attributes.alias_names.join(', ') : 'no data'}</div>
-
-  //       <img
-  //         src={detailedInfo.attributes.image || ''}
-  //         alt={`${detailedInfo.attributes.name}-image`}
-  //         className="character-image"
-  //       />
-  //   </div> : ''
-  // 	}
-  // 	</>
-  // )
+      <img
+        src={detailedInfo.attributes.image || '/svg/no-image-svgrepo-com.svg'}
+        alt={`${detailedInfo.attributes.name}-image`}
+        className="character-image"
+      />
+    </div>
+  );
 }
 
 export default Detailed;
