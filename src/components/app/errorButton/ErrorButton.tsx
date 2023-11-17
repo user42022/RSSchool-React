@@ -1,14 +1,19 @@
-import { useContext, useState } from 'react';
-import AppContext from '../AppContext/AppContext';
+import { useState } from 'react';
 import './ErrorButton.css';
+import { useSearchParams } from 'react-router-dom';
 
 function ErrorButton() {
   const [error, setError] = useState(false);
-  const context = useContext(AppContext);
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const closeDetailedCard = () => {
+    searchParams.delete('detailedId');
+    setSearchParams(searchParams);
+  };
 
   const causeError = () => {
     setError(true);
-    context?.closeDetailedCard();
+    closeDetailedCard();
   };
 
   if (error) {
