@@ -1,13 +1,15 @@
-export interface RequestParams {
-  path: string[];
-  query: { [key: string]: string };
+export interface CharactersResponse {
+  data: Character[];
+  meta: {
+    pagination: {
+      current: number;
+      records: number;
+    };
+  };
 }
 
-export interface ResponseInfo {
-  pagination: {
-    current: number;
-    records: number;
-  };
+export interface DetailedResponse {
+  data: Character;
 }
 
 export interface Character {
@@ -44,9 +46,4 @@ export interface Character {
   links: {
     self: string | null;
   };
-}
-
-export interface CharactersResponse {
-  data: Character[];
-  meta: ResponseInfo;
 }

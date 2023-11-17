@@ -3,9 +3,9 @@ import SearchForm from './search-form/SearchForm';
 import CardList from './CardList/CardList';
 import ErrorButton from './errorButton/ErrorButton';
 import { Outlet, useSearchParams } from 'react-router-dom';
-import './App.css';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { charactersSlice } from '../store/reducers/CharactersSlice';
+import './App.css';
 
 function App() {
   const { actions } = charactersSlice;

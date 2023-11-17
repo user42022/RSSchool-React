@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import './SearchForm.css';
 import { charactersSlice } from '../../store/reducers/CharactersSlice';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import './SearchForm.css';
 
 function SearchForm() {
   const { actions } = charactersSlice;

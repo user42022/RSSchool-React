@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import './ErrorButton.css';
 import { useSearchParams } from 'react-router-dom';
+import './ErrorButton.css';
 
 function ErrorButton() {
   const [error, setError] = useState(false);
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const closeDetailedCard = () => {
     searchParams.delete('detailedId');

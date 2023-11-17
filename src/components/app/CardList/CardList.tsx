@@ -1,39 +1,32 @@
 import Loader from '../loader/Loader';
 import Card from '../card/Card';
-import { useEffect } from 'react';
-import { getCharacters } from '../../../api/api';
-import './CardList.css';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { charactersSlice } from '../../store/reducers/CharactersSlice';
 import { useSearchParams } from 'react-router-dom';
+import { useGetCharactersQuery } from '../../../api/services';
+import { useEffect } from 'react';
+import './CardList.css';
 
 function CardList() {
   const [searchParams, setSearchParams] = useSearchParams();
-
   const { actions } = charactersSlice;
   const dispatch = useAppDispatch();
   const state = useAppSelector((state) => state.charactersReducer);
 
-  const handleSearch = async () => {
-    dispatch(actions.updateIsLoadingCharacters(true));
-
-    const requestParams = {
-      'filter[name_cont]': state.searchValue || '',
-      'page[number]': `${state.pageNumber || 1}`,
-      'page[size]': `${state.pageSize || 10}`,
-    };
-
-    const { data, meta } = await getCharacters(requestParams);
-
-    dispatch(actions.updateCharacters(data));
-    dispatch(actions.updateRecords(meta.pagination.records));
-    dispatch(actions.updateIsLoadingCharacters(false));
+  const requestParams = {
+    characterName: state.searchValue || '',
+    pageNumber: `${state.pageNumber || 1}`,
+    pageSize: `${state.pageSize || 10}`,
   };
 
+  const { data, isFetching, isSuccess } = useGetCharactersQuery(requestParams);
+
   useEffect(() => {
-    handleSearch();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.pageNumber, state.pageSize, state.searchValue]);
+    if (isSuccess) {
+      dispatch(actions.updateCharacters(data));
+    }
+    dispatch(actions.updateIsLoadingCharacters(isFetching));
+  });
 
   const closeDetailedCard = () => {
     searchParams.delete('detailedId');
@@ -42,9 +35,9 @@ function CardList() {
 
   return (
     <div className="card-list" onClickCapture={closeDetailedCard}>
-      {state.isCharactersLoading ? <Loader /> : ''}
-      {state.characters.length ? (
-        state.characters.map((character) => (
+      {isFetching ? <Loader /> : ''}
+      {data?.data.length ? (
+        data.data.map((character) => (
           <Card
             key={character.id}
             id={character.id}

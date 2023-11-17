@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { Character } from '../../../types/types';
+import { Character, CharactersResponse } from '../../../types/types';
 
 const searchParams = new URLSearchParams(window.location.href);
 
@@ -51,14 +51,15 @@ export const charactersSlice = createSlice({
     updateIsLoadingDetailedInfo: (state, action: PayloadAction<boolean>) => {
       state.isDetailedInfoLoading = action.payload;
     },
-    updateCharacters: (state, action: PayloadAction<Character[]>) => {
-      state.characters = action.payload;
-    },
     updateDetailedInfo: (state, action: PayloadAction<Character>) => {
       state.detailedCharacterInfo = action.payload;
     },
     updateRecords: (state, action: PayloadAction<number>) => {
       state.records = action.payload;
+    },
+    updateCharacters: (state, action: PayloadAction<CharactersResponse>) => {
+      state.records = action.payload.meta.pagination.records;
+      state.characters = action.payload.data;
     },
   },
 });
