@@ -3,7 +3,7 @@
 import { it, expect } from 'vitest';
 
 import { render } from '@testing-library/react';
-import Loader from '../components/app/loader/Loader';
+import Loader from './Loader';
 
 it('Should display loader', () => {
   const { container } = render(<Loader />);
