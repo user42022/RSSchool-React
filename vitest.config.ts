@@ -5,7 +5,9 @@ export default defineConfig({
     coverage: {
       reporter: ['text', 'json', 'html'],
       include: ['src'],
-      exclude: ['src/types', 'src/vite-env.d.ts'],
+      exclude: ['src/types', 'src/vite-env.d.ts', 'src/tests/mocks'],
     },
+    setupFiles: ['./vitest.setup.ts'],
+    globals: true,
   },
 });
