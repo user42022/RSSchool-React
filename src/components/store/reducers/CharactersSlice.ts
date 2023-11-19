@@ -37,6 +37,9 @@ export const charactersSlice = createSlice({
     updatePageSize: (state, action: PayloadAction<number>) => {
       state.pageSize = action.payload || 10;
     },
+    updateSearchValue: (state, action: PayloadAction<string>) => {
+      state.searchValue = action.payload;
+    },
     updateFromURL: (
       state,
       action: PayloadAction<Record<string, string | null>>

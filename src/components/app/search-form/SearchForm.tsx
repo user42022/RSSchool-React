@@ -14,6 +14,7 @@ function SearchForm() {
 
   const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    actions.updateSearchValue(characterName);
     searchParams.set('characterName', characterName);
     localStorage.setItem('cachedName', characterName);
     searchParams.set('pageNumber', `1`);
