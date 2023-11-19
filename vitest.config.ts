@@ -5,9 +5,15 @@ export default defineConfig({
     coverage: {
       reporter: ['text', 'json', 'html'],
       include: ['src'],
-      exclude: ['src/types', 'src/vite-env.d.ts', 'src/tests/mocks'],
+      exclude: [
+        'src/types',
+        'src/vite-env.d.ts',
+        'src/tests/mocks',
+        'src/main.tsx',
+      ],
     },
     setupFiles: ['./vitest.setup.ts'],
     globals: true,
+    environment: 'happy-dom',
   },
 });

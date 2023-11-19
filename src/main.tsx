@@ -6,6 +6,7 @@ import Detailed from './components/app/detailed/Detailed';
 import './index.css';
 import { Provider } from 'react-redux';
 import { setupStore } from './components/store/store';
+import NotFound from './components/notFound/NotFound';
 
 const store = setupStore();
 
@@ -17,6 +18,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route path="/" element={<App />}>
             <Route index element={<Detailed />} />
           </Route>
+          <Route path="/*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </ErrorBoundary>
