@@ -1,47 +1,43 @@
 import Loader from '../loader/Loader';
 import Card from '../card/Card';
-import { useContext, useEffect, useState } from 'react';
-import AppContext from '../AppContext/AppContext';
-import { getCharacters } from '../../../api/api';
-import { Character } from '../../../types/types';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import { charactersSlice } from '../../store/reducers/CharactersSlice';
+import { useSearchParams } from 'react-router-dom';
+import { useGetCharactersQuery } from '../../../api/services';
+import { useEffect } from 'react';
 import './CardList.css';
 
 function CardList() {
-  const [characters, setCharacters] = useState<Character[]>([]);
-  const context = useContext(AppContext);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { actions } = charactersSlice;
+  const dispatch = useAppDispatch();
+  const state = useAppSelector((state) => state.charactersReducer);
 
-  const handleSearch = async () => {
-    context?.isFetching.setValue(true);
-
-    const requestParams = {
-      'filter[name_cont]': context?.characterName.value || '',
-      'page[number]': `${context?.currentPage.value || 1}`,
-      'page[size]': `${context?.pageSize.value || 10}`,
-    };
-
-    const { data, meta } = await getCharacters(requestParams);
-    localStorage.setItem('cachedName', requestParams['filter[name_cont]']);
-    setCharacters(data);
-    context?.records.setValue(meta.pagination.records);
-    context?.isFetching.setValue(false);
+  const requestParams = {
+    characterName: state.searchValue || '',
+    pageNumber: `${state.pageNumber || 1}`,
+    pageSize: `${state.pageSize || 10}`,
   };
 
+  const { data, isFetching, isSuccess } = useGetCharactersQuery(requestParams);
+
   useEffect(() => {
-    if (context) {
-      handleSearch();
+    if (isSuccess) {
+      dispatch(actions.updateCharacters(data));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    context?.pageSize.value,
-    context?.characterName.value,
-    context?.currentPage.value,
-  ]);
+    dispatch(actions.updateIsLoadingCharacters(isFetching));
+  });
+
+  const closeDetailedCard = () => {
+    searchParams.delete('detailedId');
+    setSearchParams(searchParams);
+  };
 
   return (
-    <div className="card-list" onClickCapture={context?.closeDetailedCard}>
-      {context?.isFetching.value ? <Loader /> : ''}
-      {characters.length ? (
-        characters.map((character) => (
+    <div className="card-list" onClickCapture={closeDetailedCard}>
+      {state.isCharactersLoading ? <Loader /> : ''}
+      {state.characters.length ? (
+        state.characters.map((character) => (
           <Card
             key={character.id}
             id={character.id}
