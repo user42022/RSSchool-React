@@ -35,9 +35,9 @@ function CardList() {
 
   return (
     <div className="card-list" onClickCapture={closeDetailedCard}>
-      {isFetching ? <Loader /> : ''}
-      {data?.data.length ? (
-        data.data.map((character) => (
+      {state.isCharactersLoading ? <Loader /> : ''}
+      {state.characters.length ? (
+        state.characters.map((character) => (
           <Card
             key={character.id}
             id={character.id}
