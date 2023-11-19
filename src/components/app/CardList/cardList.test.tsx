@@ -30,7 +30,9 @@ describe('Card list component', () => {
     const { actions } = charactersSlice;
     store.dispatch(
       actions.updateCharacters({
-        data: Array(5).fill('initial-value').map(createCharacterFromParams),
+        data: Array(5)
+          .fill({ 'filter[name_cont]': 'initial-value' })
+          .map(createCharacterFromParams),
         meta: {
           pagination: {
             current: 0,
@@ -51,12 +53,15 @@ describe('Card list component', () => {
     const cards = screen.getAllByText(/name-initial-value/);
     expect(cards.length).toBe(5);
   });
+
   it('Should update characters with provided query from store', async () => {
     const store = setupStore();
     const { actions } = charactersSlice;
     store.dispatch(
       actions.updateCharacters({
-        data: Array(5).fill('initial-value').map(createCharacterFromParams),
+        data: Array(5)
+          .fill({ 'filter[name_cont]': 'initial-value' })
+          .map(createCharacterFromParams),
         meta: {
           pagination: {
             current: 0,
@@ -78,12 +83,15 @@ describe('Card list component', () => {
     const cards = await screen.findAllByText(/name-updated-value/);
     expect(cards.length).toBe(10);
   });
+
   it('Should update characters with provided query from store', async () => {
     const store = setupStore();
     const { actions } = charactersSlice;
     store.dispatch(
       actions.updateCharacters({
-        data: Array(5).fill('initial-value').map(createCharacterFromParams),
+        data: Array(5)
+          .fill({ 'filter[name_cont]': 'initial-value' })
+          .map(createCharacterFromParams),
         meta: {
           pagination: {
             current: 0,
@@ -105,6 +113,7 @@ describe('Card list component', () => {
     const cards = await screen.findAllByText(/name-updated-value/);
     expect(cards.length).toBe(10);
   });
+
   it('Should display loader when IsLoadingCharacters indicator is truthy', () => {
     const store = setupStore();
     const { actions } = charactersSlice;
@@ -121,9 +130,12 @@ describe('Card list component', () => {
     const [loader] = container.getElementsByClassName('loader');
     expect(loader).toBeInTheDocument();
   });
-  it('Should delete detailedId in search params and navigate to new route', async () => {
-    window.location.search = '?detailedId=some-id';
+
+  it('Should not display loader when IsLoadingCharacters indicator is falsy', async () => {
     const store = setupStore();
+    const { actions } = charactersSlice;
+    store.dispatch(actions.updateIsLoadingCharacters(false));
+
     const { container } = render(
       <Provider store={store}>
         <BrowserRouter>
