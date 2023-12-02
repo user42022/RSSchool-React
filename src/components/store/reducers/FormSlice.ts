@@ -7,7 +7,7 @@ interface SubmitedForm {
   password: string;
   gender: string;
   accept: string;
-  image: string;
+  image: string | ArrayBuffer | null;
   country: string;
 }
 

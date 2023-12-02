@@ -1,5 +1,7 @@
+import Form from '../../components/uncontrolled/Form';
+
 const UncontrolledForm = () => {
-  return <></>;
+  return <Form />;
 };
 
 export default UncontrolledForm;
