@@ -1,0 +1,6 @@
+.validation-message {
+  color: red;
+  min-height: 2rem;
+  height: fit-content;
+  font-size: 0.8rem;
+}
