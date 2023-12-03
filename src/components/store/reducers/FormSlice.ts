@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-interface SubmitedForm {
+export interface SubmitedForm {
   name: string;
   age: string;
   email: string;
@@ -9,6 +9,7 @@ interface SubmitedForm {
   accept: string;
   image: string | ArrayBuffer | null;
   country: string;
+  date: number;
 }
 
 interface StoredData {

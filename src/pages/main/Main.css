@@ -1,0 +1,6 @@
+.info-list {
+  transition: background-color 0.3s;
+}
+.info-list.updated > .submited-form:first-of-type {
+  background-color: rgba(0, 255, 0, 0.163);
+}

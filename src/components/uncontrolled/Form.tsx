@@ -5,10 +5,12 @@ import AutocompleteInput from './AutocompleteInput';
 import PasswordInput from './PasswordInput';
 import './form-styles.css';
 import * as v from './../../utils/validations';
-import { useAppDispatch } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { formSlice } from '../store/reducers/FormSlice';
 
 const Form = () => {
+  const { data } = useAppSelector((state) => state.formsReducer);
+
   const dispatch = useAppDispatch();
   const { pushSubmited } = formSlice.actions;
 
@@ -78,14 +80,16 @@ const Form = () => {
           pushSubmited({
             name: nameRef.current?.value || '',
             age: ageRef.current?.value || '',
-            email: passwordRef.current?.value || '',
-            password: confirmPasswordRef.current?.value || '',
+            email: emailRef.current?.value || '',
+            password: passwordRef.current?.value || '',
             gender: genderRef.current?.value || '',
             accept: `${acceptTCRef.current?.checked || ''}`,
             image: fileReader.result,
             country: countryRef.current?.value || '',
+            date: Date.now(),
           })
         );
+        console.log(data);
       };
       if (fileRef.current?.files && fileRef.current.files[0]) {
         fileReader.readAsDataURL(fileRef.current.files[0]);
