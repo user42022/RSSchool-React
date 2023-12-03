@@ -13,6 +13,7 @@
   height: fit-content;
   font-size: 0.8rem;
 }
+
 .password-message {
   min-height: 2rem;
 }
@@ -26,18 +27,22 @@
     width 0.5s,
     background-color 0.5s;
 }
+
 .type1 {
   width: 25%;
   background-color: red;
 }
+
 .type2 {
   width: 50%;
   background-color: orange;
 }
+
 .type3 {
   width: 75%;
   background-color: yellow;
 }
+
 .type4 {
   width: 100%;
   background-color: green;

@@ -4,6 +4,7 @@
   width: fit-content;
   margin: auto;
 }
+
 .info-list.updated > .submited-form:first-of-type {
   background-color: rgba(0, 255, 0, 0.163);
 }

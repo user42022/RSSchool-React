@@ -1,6 +1,7 @@
 .navigation {
   margin: 1rem;
 }
+
 .navigation-list {
   list-style-type: none;
   display: flex;
@@ -9,6 +10,7 @@
   justify-content: center;
   font-size: 1.5rem;
 }
+
 .navigation-link {
   border-bottom: 1px solid transparent;
   transition:
@@ -26,6 +28,7 @@
 .navigation-link.active {
   border-color: black;
 }
+
 .navigation-link:active {
   background-color: rgba(0, 0, 0, 0.3);
 }
@@ -34,6 +37,7 @@
   .navigation {
     margin: 0.5rem;
   }
+
   .navigation-list {
     list-style-type: none;
     display: flex;
