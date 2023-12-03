@@ -5,15 +5,18 @@ export const nameSchema = yup
   .string()
   .required('Please input your name')
   .matches(/^[A-ZА-Я]+\w*$/, 'Must contain first uppercase letter');
+
 export const ageSchema = yup
   .number()
   .typeError('Please input your age')
   .required()
   .moreThan(-1, 'Should be positive');
+
 export const emailSchema = yup
   .string()
   .required('Please input your email')
   .email('Should match email pattern');
+
 export const passwordSchema = yup
   .string()
   .required('Please input your password')
@@ -21,17 +24,21 @@ export const passwordSchema = yup
   .matches(/[a-zа-я]/, '1 lowercase letter')
   .matches(/\d/, '1 digit')
   .matches(/\W/, '1 special symbol');
+
 export const confirmPasswordSchema = (compareValue: string) => {
   return yup
     .string()
     .required('Please input password to confirm')
     .matches(new RegExp(compareValue || '^$'), 'Passwords not match');
 };
+
 export const genderSchema = yup.string().required('Please input your gender');
+
 export const acceptTCSchema = yup
   .boolean()
   .isTrue('You should accept T&C')
   .required();
+
 export const fileSchema = yup
   .mixed<FileList>()
   .required()
@@ -48,6 +55,7 @@ export const fileSchema = yup
       new RegExp('^image/(?:jpeg|png)$').test(value[0].type)
     );
   });
+
 export const countrySchema = yup.string().required('Please input your country');
 
 export const validateCommon = async <T>(

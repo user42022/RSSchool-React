@@ -3,16 +3,14 @@ import Input from './Input';
 import Select from './Select';
 import AutocompleteInput from './AutocompleteInput';
 import PasswordInput from './PasswordInput';
-import './form-styles.css';
 import * as v from './../../utils/validations';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { useAppDispatch } from '../../hooks/redux';
 import { formSlice } from '../store/reducers/FormSlice';
 import { useNavigate } from 'react-router-dom';
+import './form-styles.css';
 
 const Form = () => {
   const navigator = useNavigate();
-  const { data } = useAppSelector((state) => state.formsReducer);
-
   const dispatch = useAppDispatch();
   const { pushSubmited } = formSlice.actions;
 
@@ -40,6 +38,7 @@ const Form = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     const resolved = await Promise.all([
       v.validateCommon(nameRef.current?.value, v.nameSchema, setNameValidation),
       v.validateCommon(ageRef.current?.value, v.ageSchema, setAgeValidation),
@@ -75,8 +74,10 @@ const Form = () => {
         setCountryValidation
       ),
     ]);
+
     if (!resolved.some((isSuccess) => !isSuccess)) {
       const fileReader = new FileReader();
+
       fileReader.onloadend = function () {
         dispatch(
           pushSubmited({
@@ -91,10 +92,10 @@ const Form = () => {
             date: Date.now(),
           })
         );
-        navigator('/');
 
-        console.log(data);
+        navigator('/');
       };
+
       if (fileRef.current?.files && fileRef.current.files[0]) {
         fileReader.readAsDataURL(fileRef.current.files[0]);
       }
@@ -124,7 +125,6 @@ const Form = () => {
         validationMessage={emailValidation}
         labelText={'Email'}
       />
-
       <PasswordInput
         labelText={'Password'}
         validationMessage={passwordValidation}
@@ -132,7 +132,6 @@ const Form = () => {
         inputRef={passwordRef}
         passwordStrength={passStr ? `type${passStr}` : ''}
       />
-
       <Input
         type="password"
         inputRef={confirmPasswordRef}

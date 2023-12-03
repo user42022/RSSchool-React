@@ -1,7 +1,7 @@
 import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
-import './PasswordInput.css';
 import { useEffect, useState } from 'react';
 import { getPasswordStrength } from '../../utils/validations';
+import './PasswordInput.css';
 
 interface InputProps {
   useFormRegisterReturn: UseFormRegisterReturn;
@@ -16,9 +16,11 @@ const PasswordInput = (props: InputProps) => {
   useEffect(() => {
     setPassStr(getPasswordStrength(props.validationErrors?.types?.matches));
   }, [props.validationErrors]);
+
   useEffect(() => {
     setPassStr('');
   }, []);
+
   return (
     <>
       <label htmlFor={props.id}>{props.labelText}</label>

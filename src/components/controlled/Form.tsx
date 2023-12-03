@@ -54,9 +54,8 @@ const Form = () => {
   });
 
   const onSubmit = (data: FormDetails) => {
-    console.log(data);
-
     const fileReader = new FileReader();
+
     fileReader.onloadend = function () {
       dispatch(
         pushSubmited({
@@ -71,17 +70,16 @@ const Form = () => {
           date: Date.now(),
         })
       );
-      navigator('/');
 
-      console.log(data);
+      navigator('/');
     };
+
     if (data.file[0]) {
       fileReader.readAsDataURL(data.file[0]);
     }
 
     reset();
   };
-  console.log();
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -106,14 +104,12 @@ const Form = () => {
         validationMessage={errors.email?.message || ''}
         labelText={'Email'}
       />
-
       <PasswordInput
         useFormRegisterReturn={register('password')}
         labelText={'Password'}
         validationErrors={errors.password}
         id={'password'}
       />
-
       <Input
         useFormRegisterReturn={register('confirmPassword')}
         type="password"

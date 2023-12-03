@@ -1,4 +1,5 @@
 import { useAppSelector } from '../../hooks/redux';
+
 interface AutocompleteInputProps {
   labelText: string;
   validationMessage: string;
