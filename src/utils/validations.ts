@@ -8,6 +8,7 @@ export const nameSchema = yup
 export const ageSchema = yup
   .number()
   .typeError('Please input your age')
+  .required()
   .moreThan(-1, 'Should be positive');
 export const emailSchema = yup
   .string()
@@ -27,9 +28,13 @@ export const confirmPasswordSchema = (compareValue: string) => {
     .matches(new RegExp(compareValue || '^$'), 'Passwords not match');
 };
 export const genderSchema = yup.string().required('Please input your gender');
-export const acceptTCSchema = yup.boolean().isTrue('You should accept T&C');
+export const acceptTCSchema = yup
+  .boolean()
+  .isTrue('You should accept T&C')
+  .required();
 export const fileSchema = yup
   .mixed<FileList>()
+  .required()
   .test('required', 'please upload your image', (value) => {
     return value && !!value[0];
   })

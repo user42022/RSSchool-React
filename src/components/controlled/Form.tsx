@@ -6,8 +6,25 @@ import Input from './Input';
 import PasswordInput from './PasswordInput';
 import Select from './Select';
 import AutocompleteInput from './AutocompleteInput';
+import { useAppDispatch } from '../../hooks/redux';
+import { formSlice } from '../store/reducers/FormSlice';
+
+interface FormDetails {
+  name: string;
+  age: number;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  gender: string;
+  acceptTC: boolean;
+  file: FileList;
+  country: string;
+}
 
 const Form = () => {
+  const dispatch = useAppDispatch();
+  const { pushSubmited } = formSlice.actions;
+
   const schema = yup.object().shape({
     name: v.nameSchema,
     age: v.ageSchema,
@@ -28,14 +45,36 @@ const Form = () => {
     handleSubmit,
     formState: { errors, isValid },
     reset,
-  } = useForm({
-    resolver: yupResolver(schema, { abortEarly: false }),
+  } = useForm<FormDetails>({
+    resolver: yupResolver<FormDetails>(schema, { abortEarly: false }),
     criteriaMode: 'all',
     mode: 'all',
   });
 
-  const onSubmit = (data: unknown) => {
+  const onSubmit = (data: FormDetails) => {
     console.log(data);
+
+    const fileReader = new FileReader();
+    fileReader.onloadend = function () {
+      dispatch(
+        pushSubmited({
+          name: data.name,
+          age: `${data.age}`,
+          email: data.email,
+          password: data.password,
+          gender: data.gender,
+          accept: `${data.acceptTC}`,
+          image: fileReader.result,
+          country: data.country,
+          date: Date.now(),
+        })
+      );
+      console.log(data);
+    };
+    if (data.file[0]) {
+      fileReader.readAsDataURL(data.file[0]);
+    }
+
     reset();
   };
   console.log();
