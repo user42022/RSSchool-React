@@ -1,3 +1,4 @@
+import { ValidateResult } from 'react-hook-form';
 import * as yup from 'yup';
 
 export const nameSchema = yup
@@ -89,5 +90,23 @@ export const validatePassword = async (
       }
       return false;
     }
+  }
+};
+
+export const getPasswordStrength = (validationRes: ValidateResult) => {
+  switch (typeof validationRes) {
+    case 'string':
+      return 'type3';
+
+    case 'object':
+      return Array.isArray(validationRes)
+        ? `type${4 - validationRes.length}`
+        : '';
+
+    default:
+      if (!validationRes) {
+        return 'type4';
+      }
+      return '';
   }
 };

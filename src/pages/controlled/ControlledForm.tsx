@@ -1,5 +1,7 @@
+import Form from '../../components/controlled/Form';
+
 const ControlledForm = () => {
-  return <></>;
+  return <Form />;
 };
 
 export default ControlledForm;
