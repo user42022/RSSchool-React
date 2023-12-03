@@ -8,6 +8,7 @@ import Select from './Select';
 import AutocompleteInput from './AutocompleteInput';
 import { useAppDispatch } from '../../hooks/redux';
 import { formSlice } from '../store/reducers/FormSlice';
+import { useNavigate } from 'react-router-dom';
 
 interface FormDetails {
   name: string;
@@ -22,6 +23,7 @@ interface FormDetails {
 }
 
 const Form = () => {
+  const navigator = useNavigate();
   const dispatch = useAppDispatch();
   const { pushSubmited } = formSlice.actions;
 
@@ -69,6 +71,8 @@ const Form = () => {
           date: Date.now(),
         })
       );
+      navigator('/');
+
       console.log(data);
     };
     if (data.file[0]) {

@@ -7,8 +7,10 @@ import './form-styles.css';
 import * as v from './../../utils/validations';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { formSlice } from '../store/reducers/FormSlice';
+import { useNavigate } from 'react-router-dom';
 
 const Form = () => {
+  const navigator = useNavigate();
   const { data } = useAppSelector((state) => state.formsReducer);
 
   const dispatch = useAppDispatch();
@@ -89,6 +91,8 @@ const Form = () => {
             date: Date.now(),
           })
         );
+        navigator('/');
+
         console.log(data);
       };
       if (fileRef.current?.files && fileRef.current.files[0]) {
