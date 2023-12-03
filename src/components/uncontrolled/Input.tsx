@@ -1,4 +1,5 @@
 import { HTMLInputTypeAttribute } from 'react';
+import './../style/Inputs.css';
 
 interface InputProps {
   labelText: string;
@@ -10,16 +11,19 @@ interface InputProps {
 
 const Input = (props: InputProps) => {
   return (
-    <>
-      <label htmlFor={props.id}>{props.labelText}</label>
+    <div className="input">
+      <label className="input__label" htmlFor={props.id}>
+        {props.labelText}
+      </label>
       <input
+        className="input__field"
         autoComplete="off"
         id={props.id}
         type={props.type}
         ref={props.inputRef}
       />
-      <div className="validation-message">{props.validationMessage}</div>
-    </>
+      <div className="input__validation-message">{props.validationMessage}</div>
+    </div>
   );
 };
 

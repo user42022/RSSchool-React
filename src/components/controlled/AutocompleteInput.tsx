@@ -1,5 +1,6 @@
 import { UseFormRegisterReturn } from 'react-hook-form';
 import { useAppSelector } from '../../hooks/redux';
+import './../style/Inputs.css';
 
 interface AutocompleteInputProps {
   useFormRegisterReturn: UseFormRegisterReturn;
@@ -12,9 +13,12 @@ const AutocompleteInput = (props: AutocompleteInputProps) => {
   const country_list = useAppSelector((state) => state.countriesReducer);
 
   return (
-    <>
-      <label htmlFor={props.id}>{props.labelText}</label>
+    <div className="input">
+      <label className="input__label" htmlFor={props.id}>
+        {props.labelText}
+      </label>
       <input
+        className="input__field"
         {...props.useFormRegisterReturn}
         list="country_list"
         id={props.id}
@@ -24,8 +28,8 @@ const AutocompleteInput = (props: AutocompleteInputProps) => {
           <option key={country} value={country} />
         ))}
       </datalist>
-      <div className="validation-message">{props.validationMessage}</div>
-    </>
+      <div className="input__validation-message">{props.validationMessage}</div>
+    </div>
   );
 };
 

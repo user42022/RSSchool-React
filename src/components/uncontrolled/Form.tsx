@@ -7,7 +7,7 @@ import * as v from './../../utils/validations';
 import { useAppDispatch } from '../../hooks/redux';
 import { formSlice } from '../store/reducers/FormSlice';
 import { useNavigate } from 'react-router-dom';
-import './form-styles.css';
+import './../style/Form.css';
 
 const Form = () => {
   const navigator = useNavigate();
@@ -103,7 +103,7 @@ const Form = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="form" onSubmit={handleSubmit}>
       <Input
         type="text"
         inputRef={nameRef}

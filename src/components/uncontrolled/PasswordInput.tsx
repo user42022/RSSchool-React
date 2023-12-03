@@ -1,4 +1,4 @@
-import './PasswordInput.css';
+import './../style/Inputs.css';
 
 interface InputProps {
   labelText: string;
@@ -10,17 +10,22 @@ interface InputProps {
 
 const PasswordInput = (props: InputProps) => {
   return (
-    <>
-      <label htmlFor={props.id}>{props.labelText}</label>
+    <div className="input">
+      <label className="input__label" htmlFor={props.id}>
+        {props.labelText}
+      </label>
       <input
+        className="input__label"
         autoComplete="off"
         id={props.id}
         type="password"
         ref={props.inputRef}
       />
       <div className={`password-strength ${props.passwordStrength}`}></div>
-      <div className="validation-message">{props.validationMessage}</div>
-    </>
+      <div className="input__validation-message password-message">
+        {props.validationMessage}
+      </div>
+    </div>
   );
 };
 

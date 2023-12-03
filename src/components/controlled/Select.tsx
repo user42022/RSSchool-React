@@ -1,4 +1,5 @@
 import { UseFormRegisterReturn } from 'react-hook-form';
+import './../style/Inputs.css';
 
 interface SelectProps {
   useFormRegisterReturn: UseFormRegisterReturn;
@@ -9,9 +10,16 @@ interface SelectProps {
 
 const Select = (props: SelectProps) => {
   return (
-    <>
-      <label htmlFor={props.id}>{props.labelText}</label>
-      <select {...props.useFormRegisterReturn} id={props.id} defaultValue={''}>
+    <div className="input">
+      <label className="input__label" htmlFor={props.id}>
+        {props.labelText}
+      </label>
+      <select
+        className="input__field"
+        {...props.useFormRegisterReturn}
+        id={props.id}
+        defaultValue={''}
+      >
         <option value={''} disabled>
           Your gender
         </option>
@@ -19,8 +27,8 @@ const Select = (props: SelectProps) => {
         <option>Male</option>
         <option>Female</option>
       </select>
-      <div className="validation-message">{props.validationMessage}</div>
-    </>
+      <div className="input__validation-message">{props.validationMessage}</div>
+    </div>
   );
 };
 

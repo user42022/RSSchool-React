@@ -1,7 +1,7 @@
 import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { getPasswordStrength } from '../../utils/validations';
-import './PasswordInput.css';
+import './../style/Inputs.css';
 
 interface InputProps {
   useFormRegisterReturn: UseFormRegisterReturn;
@@ -22,22 +22,25 @@ const PasswordInput = (props: InputProps) => {
   }, []);
 
   return (
-    <>
-      <label htmlFor={props.id}>{props.labelText}</label>
+    <div className="input">
+      <label className="input__label" htmlFor={props.id}>
+        {props.labelText}
+      </label>
       <input
+        className="input__field"
         {...props.useFormRegisterReturn}
         autoComplete="off"
         id={props.id}
         type="password"
       />
       <div className={`password-strength ${passStr}`}></div>
-      <div className="validation-message">
+      <div className="input__validation-message password-message">
         {props.validationErrors?.types?.required || ''}{' '}
         {props.validationErrors?.types?.matches
           ? `Password must contain at least: ${props.validationErrors.types.matches}`
           : ''}
       </div>
-    </>
+    </div>
   );
 };
 

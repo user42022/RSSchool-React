@@ -9,6 +9,7 @@ import AutocompleteInput from './AutocompleteInput';
 import { useAppDispatch } from '../../hooks/redux';
 import { formSlice } from '../store/reducers/FormSlice';
 import { useNavigate } from 'react-router-dom';
+import './../style/Form.css';
 
 interface FormDetails {
   name: string;
@@ -82,7 +83,7 @@ const Form = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form className="form" onSubmit={handleSubmit(onSubmit)}>
       <Input
         useFormRegisterReturn={register('name')}
         type="text"

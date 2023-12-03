@@ -1,18 +1,25 @@
-import { Link, Outlet } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
+import './App.css';
 
 const App = () => {
   return (
     <>
-      <nav>
-        <ul>
+      <nav className="navigation">
+        <ul className="navigation-list">
           <li>
-            <Link to={'/'}>Main</Link>
+            <NavLink className="navigation-link" to={'/'}>
+              Main
+            </NavLink>
           </li>
           <li>
-            <Link to={'/uncontrolled'}>Uncontolled Form</Link>
+            <NavLink className="navigation-link" to={'/uncontrolled'}>
+              Uncontolled Form
+            </NavLink>
           </li>
           <li>
-            <Link to={'/controlled'}>Contolled Form</Link>
+            <NavLink className="navigation-link" to={'/controlled'}>
+              Contolled Form
+            </NavLink>
           </li>
         </ul>
       </nav>

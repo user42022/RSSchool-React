@@ -7,7 +7,7 @@ import ControlledForm from './pages/controlled/ControlledForm';
 import UncontrolledForm from './pages/uncontrolled/UncontrolledForm';
 import { setupStore } from './components/store/store';
 import { Provider } from 'react-redux';
-
+import './styles.css';
 const store = setupStore();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
